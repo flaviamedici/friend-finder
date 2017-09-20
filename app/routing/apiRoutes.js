@@ -1,18 +1,19 @@
-// Get all friends
-var allFriends = app.get("/api/friends", function(req, res) {
-  res.json(friends);
-});
+// ***** DEPENDENCIES *****
+var friendsList = require("../data/friends.js");
+var express = require("express");
+var path = require("path");
 
-// Create New Friends - takes in JSON input
-var makeFriends = app.post("/api/friends", function(req, res) {
-  var newfriend = req.body;
-  newfriend.routeName = newfriend.name.replace(/\s+/g, "").toLowerCase();
+// ***** API ROUTES *****
+module.exports = function(app){
 
-  console.log(newfriend);
+	// Get a json list of all available friends
+	app.get("/api/friends", function(req, res) {
+	  res.json(friendsList.allFriends);
+	});
 
-  friends.push(newfriend);
+	// POST request used for survey
+	app.post("/api/friends", function(req, res){
+		console.log("this will do stuff");
+	});
 
-  res.json(newfriend);
-});
-
-module.exports(allFriends);
+}
