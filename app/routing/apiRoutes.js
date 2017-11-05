@@ -3,12 +3,8 @@ var friends = require("../data/friends.js");
 var path = require("path");
 var fs = require("fs");
 
-// var friends = friendsList.allFriends;
-
 // ***** API ROUTES *****
 module.exports = function(app){
-
-
 
 	// ---- Get a json list of all available friends ----
 	app.get("/api/friends", function(req, res) {
@@ -31,6 +27,7 @@ module.exports = function(app){
 
 		compareFriends(friends, friendInput);
 
+		// console.log(friendInput);
 	});
 
 }
@@ -43,7 +40,7 @@ function NewFriend(name, photo, answers) {
 	this.answers = answers;
 }
 
-// Function to change formate of survey answers
+// Function to change formate of survey answers because the come in as strings
 function convertAnswers(currentFriend) {
 	// variable to hold the current friend
 	var current = currentFriend;
@@ -56,7 +53,7 @@ function convertAnswers(currentFriend) {
 		curAnswers[i] = parseInt(curAnswers[i]);
 	}
 
-}
+} // END convertAnswers()
 
 // Comparison function to compare the current friend's answers to those
 // of other friends in the list
@@ -80,25 +77,27 @@ function compareFriends(allFriends, currentFriend) {
 			var qScore = Math.abs(curFriend[j] - matchFriend[j]);
 			// the total match score is equal to the sum of all qScores
 			matchScore += qScore;
-
 		} // End of scoring for loop
-		console.log(matchScore)
+		// console.log(matchScore)
+
 		// push this friends matchScore into an array
 		matchScores.push(matchScore);
 		// reset the matchScore to zero before moving to the next friend
 		matchScore = 0;
 	} // END of main for loop
-	console.log(matchScores)
+	// console.log(matchScores)
 
 	// Find lowest score in matchScores array
 	var lowestScore = Math.min(...matchScores);
-	console.log(lowestScore);
+	// console.log(lowestScore);
 
 	// find the index of the lowest score
 	var matchIndex = matchScores.indexOf(lowestScore);
-	console.log(matchIndex);
+	// console.log(matchIndex);
 	// find the friend at this index in the allFriends array
 	var bestFriend = allFriends[matchIndex];
-	console.log("Friend: " + bestFriend.name + "\nImage: " + bestFriend.photo);
-	// return this friend's name and photo in a modal
+
+	// add a new property to the current friend's object that holds the best match
+	currentFriend.bestie = bestFriend;
+	// console.log(currentFriend);
 }

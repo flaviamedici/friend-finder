@@ -7,6 +7,12 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<script src="https://code.jquery.com/jquery.js"></script>
 
@@ -26,7 +32,7 @@
 		</div>
 
 
-		<div class="row">
+		<div class="row" >
 			<div class="col-lg-2" id="spacer"></div>
 			<div class="col-lg-8">
 
@@ -379,8 +385,8 @@
 
 
 	            	<br>
-	            	<div class="text-right">
-	              		<button type="submit" class="btn btn-primary btn-md submit" id="add-btn"><span class="glyphicon glyphicon-fire"></span> Find Friends</button>
+	            	<div class="text-right" >
+	              		<button type="button" class="btn btn-primary btn-md submit" id="add-btn"  data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-fire"></span> Find Friends</button>
 	            	</div>
 	          	</div>
 	        </div>
@@ -389,13 +395,30 @@
 </body>
 </html>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="bestFriend">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="bestFriend">You've made a friend!</h4>
+      </div>
+      <div class="modal-body" id="friend-info">
+				<h5 id="friend-name"></h5>
+				<img id="friend-photo" src="" alt="Meet your new friend!">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Front-end JavaScript-->
+<!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
 <script type="text/javascript">
 
 	var allAnswers = [];
-	// var friends = require("./data/friends.js");
-
-
 
 	$(".submit").on("click", function(event){
 
@@ -407,7 +430,6 @@
 				for (i=1; i < 11; i++){
 					var answer = $('input[name="q'+i+'"]:checked').val();
 					allAnswers.push(parseInt(answer));
-
 				}
 				return allAnswers;
 			}
@@ -420,7 +442,6 @@
 			if (data) {
 				alert("Get ready to make new friends!");
 			}
-
 			else {
 				alert("Uh-oh! Something went wrong with your survey!");
 			}
@@ -430,6 +451,28 @@
 			$("#photo").val("");
 			$('input[type="radio"]').attr('checked', false);
 
-		});
-	});
+		}).done(function() {
+			// calls friends api
+			$.ajax({
+					url: "/api/friends",
+					method: "GET",
+					datatype: 'json'
+
+			}).done(function(res, err) {
+				if(err) {
+					console.log(err);
+				}
+				// console.log(res);
+				var current = res[res.length-1];
+				// console.log(current);
+				// stores new user's best match and displays to modal
+				var bestFriend = current.bestie;
+				console.log(bestFriend);
+				$("#friend-name").text("Hi " + current.name + ", my name is " + bestFriend.name + "!");
+				$("img#friend-photo").attr("src", bestFriend.photo);
+			});
+
+		}); // ENDS post.done()
+
+	}); // ENDS button onClick()
 </script>
