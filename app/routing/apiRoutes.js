@@ -26,7 +26,10 @@ module.exports = function(app){
 		friendInput.answers = friendInput.answers.split(",");
 
 		friends.push(friendInput);
-		getAvgScore(friends, friendInput);
+		convertAnswers(friendInput);
+		// console.log(friendInput.answers);
+
+		compareFriends(friends, friendInput);
 
 	});
 
@@ -40,10 +43,49 @@ function NewFriend(name, photo, answers) {
 	this.answers = answers;
 }
 
-// Function to get average of answers
-// look into methods: slice() and pop()
-function getAvgScore(friends, friendInput) {
-	var current = friends.pop();
-	console.log(current);
+// Function to change formate of survey answers
+function convertAnswers(currentFriend) {
+	// variable to hold the current friend
+	var current = currentFriend;
+	// console.log(current);
 
+	var curAnswers = current.answers; // holds answers
+
+	// converts answers from strings to numbers
+	for (i=0; i<curAnswers.length; i++) {
+		curAnswers[i] = parseInt(curAnswers[i]);
+	}
+
+}
+
+// Comparison function to compare the current friend's answers to those
+// of other friends in the list
+function compareFriends(allFriends, currentFriend) {
+	var curFriend = currentFriend.answers;
+	var matchFriend;
+	var matchScores = [];
+	var matchScore = 0;
+
+	// for each friend (excluding last added)...
+	for (i=0; i<allFriends.length-1; i++) {
+		// store all the scores in an array...
+		matchFriend = allFriends[i].answers;
+		// console.log(matchFriend);
+
+		// for each answer in an array...
+		for (j=0; j<matchFriend.length; j++) {
+			// store the abs value of the difference between the answers of
+			// the new friend and this friend in the array
+			var qScore = Math.abs(curFriend[j] - matchFriend[j]);
+			// the total match score is equal to the sum of all qScores
+			matchScore += qScore;
+
+		}
+		console.log(matchScore)
+		// push this friends matchScore into an array
+		matchScores.push(matchScore);
+		// reset the matchScore to zero before moving to the next friend
+		matchScore = 0;
+	}
+	console.log(matchScores)
 }
