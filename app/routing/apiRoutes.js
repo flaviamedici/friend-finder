@@ -65,6 +65,7 @@ function compareFriends(allFriends, currentFriend) {
 	var matchFriend;
 	var matchScores = [];
 	var matchScore = 0;
+	var closestMatch;
 
 	// for each friend (excluding last added)...
 	for (i=0; i<allFriends.length-1; i++) {
@@ -80,12 +81,24 @@ function compareFriends(allFriends, currentFriend) {
 			// the total match score is equal to the sum of all qScores
 			matchScore += qScore;
 
-		}
+		} // End of scoring for loop
 		console.log(matchScore)
 		// push this friends matchScore into an array
 		matchScores.push(matchScore);
 		// reset the matchScore to zero before moving to the next friend
 		matchScore = 0;
-	}
+	} // END of main for loop
 	console.log(matchScores)
+
+	// Find lowest score in matchScores array
+	var lowestScore = Math.min(...matchScores);
+	console.log(lowestScore);
+
+	// find the index of the lowest score
+	var matchIndex = matchScores.indexOf(lowestScore);
+	console.log(matchIndex);
+	// find the friend at this index in the allFriends array
+	var bestFriend = allFriends[matchIndex];
+	console.log("Friend: " + bestFriend.name + "\nImage: " + bestFriend.photo);
+	// return this friend's name and photo in a modal
 }
