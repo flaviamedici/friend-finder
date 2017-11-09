@@ -16,7 +16,7 @@ h1 {
   /*font-family: 'Lora', serif;*/
 }
 
-h4#survey-header {
+h3.display-4 {
   font-family: 'Lora', serif;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
   text-align: center;
@@ -28,8 +28,21 @@ h4#survey-header {
 	font-size: larger;
 }
 
+.modal-header {
+  background-image: url("../images/header-sunscreen.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 h4.modal-title {
-	text-align: center;
+  font-family: 'Lora', serif;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  color: white;
+}
+
+button.close {
+  color: white;
 }
 
 .modal-body {
