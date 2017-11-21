@@ -6,13 +6,13 @@ This application is hosted on Heroku: [Click Me!](https://game-of-friends-risaco
 Answer the 10-question survey and be matched to a friend based on your answers!
 
 ### Home Screen
-![alt text](public/images/screen-1.PNG "Home Screen")
+![alt text](app/public/images/screen-1.PNG "Home Screen")
 
 ### Survey Screen
-![alt text](public/images/screen-2.PNG "Survey Screen")
+![alt text](app/public/images/screen-2.PNG "Survey Screen")
 
 ### Finding a Friend
-![alt text](public/images/screen-3.PNG "Friends")
+![alt text](app/public/images/screen-3.PNG "Friends")
 
 ### Technologies
 HTML | CSS | JavaScript | AJAX | Bootstrap | MySQL
