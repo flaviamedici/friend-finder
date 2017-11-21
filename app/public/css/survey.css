@@ -53,3 +53,9 @@ img#friend-photo {
 	max-width: 60%;
 	max-height:none;
 }
+
+@media (max-width: 868px) {
+  h1 {
+    font-size: 400%;
+  }
+}
